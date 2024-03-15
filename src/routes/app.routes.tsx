@@ -5,7 +5,7 @@ import HomePage from "../pages/HomePage";
 
 export const AppRouter: FC = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/mine-sweeper">
       <Routes>
         <Route element={<HomePage></HomePage>} path="/"></Route>
         <Route path="*" element={<NotFoundPage></NotFoundPage>}></Route>
