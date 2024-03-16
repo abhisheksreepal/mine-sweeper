@@ -8,9 +8,13 @@ const GameManagerComponent: FC = observer(() => {
   const { rootStore } = useContext(StoreContext);
   useEffect(() => {
     console.log(
-      `is GameOver ${rootStore.gameStore.isGameOver} and didUser win ${rootStore.gameStore.didUserWin}`
+      `is GameOver ${rootStore.gameStore.isGameOver} and didUser win ${rootStore.gameStore.didUserWin} and score ${rootStore.gameStore.score}`
     );
-  }, [rootStore.gameStore.isGameOver, rootStore.gameStore.didUserWin]);
+  }, [
+    rootStore.gameStore.isGameOver,
+    rootStore.gameStore.didUserWin,
+    rootStore.gameStore.score,
+  ]);
 
   return (
     <section>

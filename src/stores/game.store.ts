@@ -15,6 +15,22 @@ export class GameStore {
 
   interval: NodeJS.Timeout | null = null;
 
+  get score() {
+    const status = this.didUserWin;
+    if (status) {
+      return Math.floor(
+        (this.noOfMines / (this.rows * this.column * this.durationCounter)) *
+          1000
+      );
+    } else {
+      return 0;
+    }
+  }
+  __score = 0;
+  set score(value) {
+    this.__score = value;
+  }
+
   startDurationCounter() {
     if (this.isGameStarted) {
       this.interval = setInterval(() => {
@@ -55,7 +71,8 @@ export class GameStore {
   didUserFoundMine = false;
 
   get didUserWin() {
-    return !this.didUserFoundMine && this.areAllCellsWithoutMineClicked;
+    const status = !this.didUserFoundMine && this.areAllCellsWithoutMineClicked;
+    return status;
   }
 
   difficultyLevel: DIFFICULY_LEVEL = DIFFICULY_LEVEL.EASY;
@@ -202,6 +219,7 @@ export class GameStore {
     this.isGameStarted = false;
     this.startDurationCounter(); // This should stop duration Counter
     this.didUserFoundMine = false;
+    this.score = 0;
   }
 
   isNoOfMinesValid(noOfMines: number, rows: number, column: number): boolean {

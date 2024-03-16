@@ -10,6 +10,7 @@ const GameHeaderComponent: FC = observer(() => {
       <h2>Duration - {rootStore.gameStore.durationCounter}</h2>
       <p>View History </p>
       <p>Flag Counter - {rootStore.gameStore.counterForNoOfMinesWhenFlagged}</p>
+      <p>Score = {rootStore.gameStore.score}</p>
     </section>
   );
 });
