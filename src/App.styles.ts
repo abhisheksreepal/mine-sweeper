@@ -1,5 +1,7 @@
 import { css } from "@emotion/react";
 
+import prismSvg from "./assets/svgs/prism.svg";
+
 const styles = css`
   * {
     margin: 0;
@@ -10,6 +12,12 @@ const styles = css`
   html {
     width: 100%;
     height: 100%;
+  }
+
+  body {
+    background-image: url(${prismSvg});
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 `;
 
