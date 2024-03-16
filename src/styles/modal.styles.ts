@@ -17,6 +17,12 @@ export const modalStyle = css`
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  @media screen and (max-width: 768px) {
+    height: 100vh;
+    width: 100vw;
+    overflow: auto;
+  }
 `;
 
 export const modalCloseButton = css`

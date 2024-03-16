@@ -1,8 +1,8 @@
 import { css } from "@emotion/react";
 
 export const fieldSetStyles = css`
-  margin: 20px;
-  padding: 20px;
+  margin: 5px;
+  padding: 5px;
 `;
 
 export const labelStyles = css`
@@ -10,7 +10,7 @@ export const labelStyles = css`
 `;
 
 export const inputStyles = css`
-  margin: 10px 10px 10px 0px;
+  margin: 5px 5px 5px 0px;
 `;
 
 export const radioStyles = css`
@@ -19,7 +19,7 @@ export const radioStyles = css`
 `;
 
 export const buttonStyle = css`
-  margin: 10px;
+  margin: 5px;
   color: blue;
   border-radius: 10px;
   width: 120px;
