@@ -23,6 +23,12 @@ export const modalStyle = css`
     width: 100vw;
     overflow: auto;
   }
+
+  @media screen and (max-height: 600px) {
+    height: 100vh;
+    width: 100vw;
+    overflow: auto;
+  }
 `;
 
 export const modalCloseButton = css`
