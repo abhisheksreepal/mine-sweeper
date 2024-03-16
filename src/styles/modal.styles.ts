@@ -1,13 +1,5 @@
 import { css } from "@emotion/react";
 
-export const buttonStyle = css`
-  color: blue;
-  border-radius: 10px;
-  width: 120px;
-  height: 30px;
-  cursor: pointer;
-`;
-
 export const modalOverlay = css`
   position: fixed;
   top: 0;
