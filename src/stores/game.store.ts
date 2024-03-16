@@ -13,16 +13,19 @@ export class GameStore {
 
   counterForNoOfMinesWhenFlagged = 1;
 
+  interval: NodeJS.Timeout | null = null;
+
   startDurationCounter() {
-    let interval;
     if (this.isGameStarted) {
-      interval = setInterval(() => {
+      this.interval = setInterval(() => {
         runInAction(() => {
           this.setDurationCounter();
         });
       }, 1000);
     } else {
-      clearInterval(interval);
+      if (this.interval) {
+        clearInterval(this.interval);
+      }
     }
   }
 
@@ -44,6 +47,7 @@ export class GameStore {
       this.didUserFoundMine || this.areAllCellsWithoutMineClicked;
     if (gameover) {
       this.isGameStarted = false;
+      this.startDurationCounter(); // This should stop duration Counter
     }
     return gameover;
   }
@@ -66,6 +70,9 @@ export class GameStore {
   }
 
   get areAllCellsWithoutMineClicked(): boolean {
+    if (this.data.length === 0) {
+      return false;
+    }
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.column; j++) {
         if (
@@ -73,9 +80,6 @@ export class GameStore {
           !this.data[i][j].isMinePresent
         ) {
           return false;
-        }
-        if (this.data[i][j].isMinePresent) {
-          this.didUserFoundMine = true;
         }
       }
     }
@@ -86,38 +90,47 @@ export class GameStore {
   private __noOfMines = 1; // Internal variable just to track when populating mines
   populateMines(): void {
     this.isGameStarted = true;
+
+    this.rootStore.uiStore.showGameView = true;
+    this.startDurationCounter();
+
+    this.setNoOfMinesBasedOnDifficulty(this.difficultyLevel, this.noOfMines);
     this.__noOfMines = this.noOfMines;
     this.counterForNoOfMinesWhenFlagged = this.noOfMines;
+
+    let counter = 0;
     for (let i = 0; i < this.rows; i++) {
       this.data[i] = [];
       for (let j = 0; j < this.column; j++) {
         this.data[i][j] = {
-          isMinePresent: this.randomizeMine(),
+          isMinePresent: this.randomizeMine(this.rows * this.column - counter),
+
           isAlreadyClicked: false,
           isFlagged: false,
         };
+        ++counter;
       }
     }
   }
 
-  private randomizeMine(): boolean {
+  private randomizeMine(remainingCells: number): boolean {
     const addMine = Math.random() < 0.5 ? true : false;
     if (this.__noOfMines < 1) {
       return false;
     }
-    if (this.__noOfMines < this.rows * this.column) {
+    if (this.__noOfMines < remainingCells) {
       if (addMine) {
         --this.__noOfMines;
       }
       return addMine;
-    } else if (this.__noOfMines === this.rows * this.column) {
+    } else if (this.__noOfMines === remainingCells) {
       --this.__noOfMines;
       return true;
     }
     return addMine;
   }
 
-  setNoOfMinesBasedOnDifficulty(
+  private setNoOfMinesBasedOnDifficulty(
     difficultyLevel: DIFFICULY_LEVEL,
     noOfMines?: number
   ) {
@@ -153,24 +166,28 @@ export class GameStore {
       return;
     }
     cell.isAlreadyClicked = true;
+    if (cell.isFlagged) {
+      ++this.counterForNoOfMinesWhenFlagged;
+    }
     cell.isFlagged = false;
   }
 
   rightClickCell(rowIndex: number, colIndex: number) {
     const cell = this.data[rowIndex][colIndex];
-    if (this.counterForNoOfMinesWhenFlagged === 0) {
-      return;
-    } else if (this.counterForNoOfMinesWhenFlagged === this.noOfMines) {
-      return;
-    }
+
     if (cell.isAlreadyClicked) {
       return;
     }
-    cell.isFlagged = !cell.isFlagged;
     if (cell.isFlagged) {
-      --this.counterForNoOfMinesWhenFlagged;
-    } else {
       ++this.counterForNoOfMinesWhenFlagged;
+      cell.isFlagged = !cell.isFlagged;
+    } else {
+      if (this.counterForNoOfMinesWhenFlagged === 0) {
+        return;
+      } else {
+        --this.counterForNoOfMinesWhenFlagged;
+        cell.isFlagged = !cell.isFlagged;
+      }
     }
   }
 
@@ -179,10 +196,11 @@ export class GameStore {
     this.rows = 1;
     this.column = 1;
     this.noOfMines = 1;
-    this.counterForNoOfMinesWhenFlagged = 1;
+    this.counterForNoOfMinesWhenFlagged = 0;
     this.__noOfMines = 1;
     this.data = [];
     this.isGameStarted = false;
+    this.startDurationCounter(); // This should stop duration Counter
     this.didUserFoundMine = false;
   }
 

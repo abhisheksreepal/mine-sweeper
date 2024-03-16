@@ -40,7 +40,8 @@ const ConfigurationComponent: FC<{ onClose: () => void }> = observer(
           return;
         } else {
           // Start the game here. TODO
-          console.log(event);
+          rootStore.gameStore.populateMines();
+          onClose();
         }
       } else {
         form.reportValidity();
@@ -70,6 +71,7 @@ const ConfigurationComponent: FC<{ onClose: () => void }> = observer(
       noOfMineInputRef?.current?.setCustomValidity("");
       if (!isNaN(number) && number > 0) {
         rootStore.gameStore.noOfMines = number;
+        rootStore.gameStore.difficultyLevel = DIFFICULY_LEVEL.CUSTOM;
       }
     };
 

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import HeadingComponent from "../components/Heading.component";
 import { observer } from "mobx-react-lite";
 import StoreContext from "../contexts/store.context";
-import GameComponent from "../components/Game.component";
+import GameManagerComponent from "../components/game-manager/GameManager.component";
 import WelcomeComponent from "../components/Welcome.component";
 import ModalComponent from "../components/Modal.component";
 import ConfigurationComponent from "../components/Configuration.component";
@@ -18,7 +18,7 @@ const HomePage = observer(() => {
     <React.Fragment>
       <HeadingComponent></HeadingComponent>
       {rootStore.uiStore.showGameView ? (
-        <GameComponent></GameComponent>
+        <GameManagerComponent></GameManagerComponent>
       ) : (
         <WelcomeComponent></WelcomeComponent>
       )}

@@ -25,4 +25,17 @@ export const buttonStyle = css`
   width: 120px;
   height: 30px;
   cursor: pointer;
+  font-size: 10px;
+`;
+
+export const tableStyle = css`
+  border: 1px solid black;
+`;
+
+export const rowStyle = css`
+  border: 1px solid black;
+`;
+
+export const cellStyle = css`
+  border: 1px solid black;
 `;
