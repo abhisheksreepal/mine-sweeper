@@ -1,7 +1,7 @@
 import React, { FC, useContext } from "react";
 import { observer } from "mobx-react-lite";
 import StoreContext from "../contexts/store.context";
-import { buttonStyle } from "../styles/styles";
+import { buttonStyle } from "../styles/common.styles";
 
 const HeadingComponent: FC = observer(() => {
   const { rootStore } = useContext(StoreContext);

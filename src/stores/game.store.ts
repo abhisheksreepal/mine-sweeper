@@ -1,17 +1,6 @@
+import { CellInterface, DIFFICULY_LEVEL } from "../interfaces/common.interface";
 import RootStore from "./root.store";
 import { makeAutoObservable, runInAction } from "mobx";
-
-enum DIFFICULY_LEVEL {
-  EASY,
-  MEDIUM,
-  HARD,
-}
-
-interface cell {
-  isMinePresent: boolean;
-  isAlreadyClicked: boolean;
-  isFlagged: boolean;
-}
 
 export class GameStore {
   private rootStore: RootStore;
@@ -41,7 +30,7 @@ export class GameStore {
     ++this.durationCounter;
   }
 
-  data: cell[][] =
+  data: CellInterface[][] =
     []; /* This is a matrix table which contains game data . if row=2, col=2 Then data 
                 For e.g [
                     [{isMinePresent: false,isAlreadyClicked: true , isFlagged: false},{isMinePresent: true,isAlreadyClicked: false, isFlagged: false}],
@@ -128,7 +117,10 @@ export class GameStore {
     return addMine;
   }
 
-  setNoOfMinesBasedOnDifficulty(difficultyLevel: DIFFICULY_LEVEL) {
+  setNoOfMinesBasedOnDifficulty(
+    difficultyLevel: DIFFICULY_LEVEL,
+    noOfMines?: number
+  ) {
     switch (difficultyLevel) {
       case DIFFICULY_LEVEL.EASY: {
         this.noOfMines = Math.floor((20 / 100) * this.rows * this.column);
@@ -140,6 +132,10 @@ export class GameStore {
       }
       case DIFFICULY_LEVEL.HARD: {
         this.noOfMines = Math.floor((80 / 100) * this.rows * this.column);
+        break;
+      }
+      case DIFFICULY_LEVEL.CUSTOM: {
+        this.noOfMines = noOfMines || 1;
         break;
       }
       default: {
@@ -188,5 +184,12 @@ export class GameStore {
     this.data = [];
     this.isGameStarted = false;
     this.didUserFoundMine = false;
+  }
+
+  isNoOfMinesValid(noOfMines: number, rows: number, column: number): boolean {
+    if (noOfMines < 1 || noOfMines > rows * column) {
+      return false;
+    }
+    return true;
   }
 }

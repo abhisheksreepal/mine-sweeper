@@ -10,6 +10,10 @@ import ConfigurationComponent from "../components/Configuration.component";
 const HomePage = observer(() => {
   const { rootStore } = useContext(StoreContext);
 
+  const onClose = () => {
+    rootStore.uiStore.showLaunchDialog = false;
+  };
+
   return (
     <React.Fragment>
       <HeadingComponent></HeadingComponent>
@@ -19,13 +23,8 @@ const HomePage = observer(() => {
         <WelcomeComponent></WelcomeComponent>
       )}
       {rootStore.uiStore.showLaunchDialog ? (
-        <ModalComponent
-          isOpen={true}
-          onClose={() => {
-            rootStore.uiStore.showLaunchDialog = false;
-          }}
-        >
-          <ConfigurationComponent></ConfigurationComponent>
+        <ModalComponent isOpen={true} onClose={onClose}>
+          <ConfigurationComponent onClose={onClose}></ConfigurationComponent>
         </ModalComponent>
       ) : null}
     </React.Fragment>

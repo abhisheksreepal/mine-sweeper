@@ -1,10 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import RootStore from "./root.store";
-
-interface History {
-  gameNumber: number;
-  score: number;
-}
+import { GameHistoryInterface } from "../interfaces/common.interface";
 
 export class HistoryStore {
   rootStore: RootStore;
@@ -19,5 +15,5 @@ export class HistoryStore {
     return this.historyStoreInstance;
   }
 
-  historyData: History[] = [];
+  historyData: GameHistoryInterface[] = [];
 }

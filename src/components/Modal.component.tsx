@@ -6,7 +6,7 @@ import {
   modalOverlay,
   modalStyle,
   modalTitle,
-} from "../styles/styles";
+} from "../styles/modal.styles";
 
 const ModalComponent = ({
   isOpen,
