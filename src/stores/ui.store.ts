@@ -7,8 +7,8 @@ Do not mix busines states here(Create a seperate store for business data) and al
 */
 
 export class UiStore {
-  rootStore: RootStore;
-  uiStoreInstance: UiStore | null = null;
+  private rootStore: RootStore;
+  private uiStoreInstance: UiStore | null = null;
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
     if (!this.uiStoreInstance) {
@@ -20,7 +20,7 @@ export class UiStore {
   }
   _showLaunchDialog = false;
   showGameView = false;
-  showHistoryView = false;
+  showHistoryDialog = false;
 
   set showLaunchDialog(show: boolean) {
     this._showLaunchDialog = show;

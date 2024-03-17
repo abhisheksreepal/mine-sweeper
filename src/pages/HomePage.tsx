@@ -6,12 +6,17 @@ import GameManagerComponent from "../components/game-manager/GameManager.compone
 import WelcomeComponent from "../components/Welcome.component";
 import ModalComponent from "../components/Modal.component";
 import ConfigurationComponent from "../components/Configuration.component";
+import HistoryComponent from "../components/HistoryComponent";
 
 const HomePage = observer(() => {
   const { rootStore } = useContext(StoreContext);
 
   const onClose = () => {
     rootStore.uiStore.showLaunchDialog = false;
+  };
+
+  const onHistoryClose = () => {
+    rootStore.uiStore.showHistoryDialog = false;
   };
 
   return (
@@ -23,8 +28,21 @@ const HomePage = observer(() => {
         <WelcomeComponent></WelcomeComponent>
       )}
       {rootStore.uiStore.showLaunchDialog ? (
-        <ModalComponent isOpen={true} onClose={onClose}>
+        <ModalComponent
+          modalTitle="Game Configuration"
+          isOpen={true}
+          onClose={onClose}
+        >
           <ConfigurationComponent onClose={onClose}></ConfigurationComponent>
+        </ModalComponent>
+      ) : null}
+      {rootStore.uiStore.showHistoryDialog ? (
+        <ModalComponent
+          modalTitle="Game History"
+          isOpen={true}
+          onClose={onHistoryClose}
+        >
+          <HistoryComponent onClose={onHistoryClose}></HistoryComponent>
         </ModalComponent>
       ) : null}
     </React.Fragment>

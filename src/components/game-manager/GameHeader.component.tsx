@@ -31,6 +31,10 @@ const GameHeaderComponent: FC = observer(() => {
       !rootStore.gameStore.showCellInformation;
   };
 
+  const onViewHistory = () => {
+    rootStore.uiStore.showHistoryDialog = true;
+  };
+
   return (
     <React.Fragment>
       <section css={gameHeaderStyle}>
@@ -50,7 +54,9 @@ const GameHeaderComponent: FC = observer(() => {
             ? "Hide Cell Info"
             : "Show Cell Info"}
         </button>
-        <button css={buttonStyle}>View History</button>
+        <button onClick={onViewHistory} css={buttonStyle}>
+          View History
+        </button>
       </section>
       <section>
         <p

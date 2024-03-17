@@ -12,10 +12,12 @@ const ModalComponent = ({
   isOpen,
   onClose,
   children,
+  modalTitle,
 }: {
   isOpen: boolean;
   onClose: () => void;
   children: ReactElement;
+  modalTitle: string;
 }) => {
   const dialogRef = useRef<HTMLDivElement>(null);
 
@@ -45,7 +47,7 @@ const ModalComponent = ({
     >
       <div className="modal" css={modalStyle}>
         <h2 id="modal-title" css={modalTitle}>
-          Game Configuration
+          {modalTitle}
         </h2>
         <button
           className="close-button"

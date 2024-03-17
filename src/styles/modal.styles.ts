@@ -49,4 +49,6 @@ export const modalTitle = css`
 
 export const modalDescription = css`
   font-size: 16px;
+  height: 500px;
+  overflow: auto;
 `;
