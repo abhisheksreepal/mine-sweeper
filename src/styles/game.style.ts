@@ -19,7 +19,7 @@ export const rowStyle = css`
 `;
 
 export const cellStyle = css`
-  /* border: 1px solid black; */
+  border: 1px solid;
 `;
 
 export const gameSectionTableStyle = css`
@@ -32,4 +32,9 @@ export const actionCellButtonStyles = css`
   ${cellButtonStyles};
   width: 30px;
   height: 30px;
+`;
+
+export const cellInfoStyles = css`
+  margin-left: 10px;
+  font-size: 10px;
 `;
