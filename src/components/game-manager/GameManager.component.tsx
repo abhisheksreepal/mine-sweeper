@@ -3,6 +3,7 @@ import GameHeaderComponent from "./GameHeader.component";
 import Game from "./Game.component";
 import { observer } from "mobx-react-lite";
 import StoreContext from "../../contexts/store.context";
+import { gamemanagerSectionStyle } from "../../styles/game-manager.style";
 
 const GameManagerComponent: FC = observer(() => {
   const { rootStore } = useContext(StoreContext);
@@ -17,7 +18,7 @@ const GameManagerComponent: FC = observer(() => {
   ]);
 
   return (
-    <section>
+    <section css={gamemanagerSectionStyle}>
       <GameHeaderComponent></GameHeaderComponent>
       <Game></Game>
     </section>

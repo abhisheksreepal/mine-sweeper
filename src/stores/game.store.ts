@@ -15,6 +15,8 @@ export class GameStore {
 
   interval: NodeJS.Timeout | null = null;
 
+  showCellInformation = false;
+
   gameNumber = 0;
   get score() {
     const status = this.didUserWin;
@@ -160,15 +162,15 @@ export class GameStore {
   ) {
     switch (difficultyLevel) {
       case DIFFICULY_LEVEL.EASY: {
-        this.noOfMines = Math.floor((20 / 100) * this.rows * this.column);
+        this.noOfMines = Math.ceil((20 / 100) * this.rows * this.column);
         break;
       }
       case DIFFICULY_LEVEL.MEDIUM: {
-        this.noOfMines = Math.floor((50 / 100) * this.rows * this.column);
+        this.noOfMines = Math.ceil((50 / 100) * this.rows * this.column);
         break;
       }
       case DIFFICULY_LEVEL.HARD: {
-        this.noOfMines = Math.floor((80 / 100) * this.rows * this.column);
+        this.noOfMines = Math.ceil((80 / 100) * this.rows * this.column);
         break;
       }
       case DIFFICULY_LEVEL.CUSTOM: {

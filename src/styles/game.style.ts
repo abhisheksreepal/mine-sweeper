@@ -27,3 +27,9 @@ export const gameSectionTableStyle = css`
   height: 60vh;
   overflow: auto;
 `;
+
+export const actionCellButtonStyles = css`
+  ${cellButtonStyles};
+  width: 30px;
+  height: 30px;
+`;

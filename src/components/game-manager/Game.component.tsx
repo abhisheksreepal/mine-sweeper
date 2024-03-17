@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import React, { FC, useContext } from "react";
 import StoreContext from "../../contexts/store.context";
 import {
+  actionCellButtonStyles,
   cellButtonStyles,
   cellStyle,
   gameSectionTableStyle,
@@ -42,9 +43,31 @@ const Game: FC = observer(() => {
                       }}
                       css={cellStyle}
                     >
-                      <button
-                        css={cellButtonStyles}
-                      >{`Flag - ${data.isFlagged} and Mine - ${data.isMinePresent} and click = ${data.isAlreadyClicked}`}</button>
+                      {rootStore.gameStore.showCellInformation ? (
+                        <button
+                          css={cellButtonStyles}
+                        >{`Flag - ${data.isFlagged} and Mine - ${data.isMinePresent} and click = ${data.isAlreadyClicked}`}</button>
+                      ) : (
+                        <button
+                          css={actionCellButtonStyles}
+                          disabled={
+                            rootStore.gameStore.data[rowIndex][colIndex]
+                              .isAlreadyClicked &&
+                            !rootStore.gameStore.data[rowIndex][colIndex]
+                              .isMinePresent
+                          }
+                        >
+                          {rootStore.gameStore.data[rowIndex][colIndex]
+                            .isMinePresent &&
+                          rootStore.gameStore.data[rowIndex][colIndex]
+                            .isAlreadyClicked
+                            ? "X"
+                            : rootStore.gameStore.data[rowIndex][colIndex]
+                                .isFlagged
+                            ? "?"
+                            : ""}
+                        </button>
+                      )}
                     </td>
                   );
                 })}
