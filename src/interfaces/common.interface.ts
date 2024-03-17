@@ -1,7 +1,7 @@
 export interface GameHistoryInterface {
   gameNumber: number;
   score: number;
-  level: DIFFICULY_LEVEL;
+  level: string;
 }
 
 export enum DIFFICULY_LEVEL {

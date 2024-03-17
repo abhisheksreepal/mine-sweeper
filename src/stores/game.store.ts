@@ -71,10 +71,26 @@ export class GameStore {
       this.rootStore.historyStore.historyData.push({
         score: this.score,
         gameNumber: this.gameNumber,
-        level: this.difficultyLevel,
+        level: this.convertDifficultyLevel(this.difficultyLevel) ?? "NONE",
       });
     }
     return gameover;
+  }
+
+  convertDifficultyLevel(level: number): string | null {
+    return this.getKeyByValue(DIFFICULY_LEVEL, level);
+  }
+
+  getKeyByValue<DIFFICULY_LEVEL>(
+    dataObj: DIFFICULY_LEVEL,
+    value: number
+  ): keyof DIFFICULY_LEVEL | null {
+    for (const key in dataObj) {
+      if (dataObj[key] === value) {
+        return key;
+      }
+    }
+    return null;
   }
 
   didUserFoundMine = false;
