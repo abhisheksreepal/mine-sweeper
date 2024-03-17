@@ -54,10 +54,14 @@ const Game: FC = observer(() => {
                           onRightClick(e, rowIndex, colIndex);
                         }}
                       >
-                        {rootStore.gameStore.data[rowIndex][colIndex]
+                        {(rootStore.gameStore.data[rowIndex][colIndex]
                           .isMinePresent &&
-                        rootStore.gameStore.data[rowIndex][colIndex]
-                          .isAlreadyClicked ? (
+                          rootStore.gameStore.data[rowIndex][colIndex]
+                            .isAlreadyClicked) ||
+                        (rootStore.gameStore.data[rowIndex][colIndex]
+                          .isMinePresent &&
+                          rootStore.gameStore.isGameOver &&
+                          !rootStore.gameStore.didUserWin) ? (
                           <abbr title="Mine Found">X</abbr>
                         ) : rootStore.gameStore.data[rowIndex][colIndex]
                             .isFlagged ? (
