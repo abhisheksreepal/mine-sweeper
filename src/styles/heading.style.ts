@@ -11,4 +11,5 @@ export const buttonStyleV2 = css`
   ${buttonStyle}
   display: block;
   margin: auto;
+  margin-bottom: 20px;
 `;

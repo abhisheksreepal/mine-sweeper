@@ -34,10 +34,10 @@ const Game: FC = observer(() => {
         <tbody>
           {rootStore.gameStore.data.map((row, rowIndex) => {
             return (
-              <tr key={rowIndex} css={rowStyle}>
+              <tr key={rowIndex} id={rowIndex.toString()} css={rowStyle}>
                 {row.map((data, colIndex) => {
                   return (
-                    <td key={colIndex} css={cellStyle}>
+                    <td key={colIndex} id={colIndex.toString()} css={cellStyle}>
                       <button
                         css={actionCellButtonStyles}
                         disabled={
@@ -54,16 +54,27 @@ const Game: FC = observer(() => {
                           onRightClick(e, rowIndex, colIndex);
                         }}
                       >
-                        {rootStore.gameStore.data[rowIndex][colIndex]
+                        {(rootStore.gameStore.data[rowIndex][colIndex]
                           .isMinePresent &&
-                        rootStore.gameStore.data[rowIndex][colIndex]
-                          .isAlreadyClicked ? (
+                          rootStore.gameStore.data[rowIndex][colIndex]
+                            .isAlreadyClicked) ||
+                        (rootStore.gameStore.data[rowIndex][colIndex]
+                          .isMinePresent &&
+                          rootStore.gameStore.isGameOver &&
+                          !rootStore.gameStore.didUserWin) ? (
                           <abbr title="Mine Found">X</abbr>
                         ) : rootStore.gameStore.data[rowIndex][colIndex]
                             .isFlagged ? (
                           <abbr title="Flagged for Mine">?</abbr>
                         ) : (
-                          ""
+                          <p>
+                            {rootStore.gameStore.data[rowIndex][colIndex]
+                              .isAlreadyClicked &&
+                              rootStore.gameStore.getCountOfAdjacentMines(
+                                rowIndex,
+                                colIndex
+                              )}
+                          </p>
                         )}
                       </button>
                       {rootStore.gameStore.showCellInformation && (

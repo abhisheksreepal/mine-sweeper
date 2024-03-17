@@ -16,3 +16,11 @@ export const cellStyle = css`
   text-align: center;
   padding: 10px;
 `;
+
+export const headerStyle = css`
+  padding: 20px;
+`;
+
+export const emptyPageStyle = css`
+  margin-top: 40px;
+`;
