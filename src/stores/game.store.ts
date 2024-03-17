@@ -1,6 +1,11 @@
-import { CellInterface, DIFFICULY_LEVEL } from "../interfaces/common.interface";
+import {
+  CELL_POSITION,
+  CellInterface,
+  DIFFICULY_LEVEL,
+} from "../interfaces/common.interface";
+import { getKeyByValue } from "../util";
 import RootStore from "./root.store";
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable, runInAction, toJS } from "mobx";
 
 export class GameStore {
   private rootStore: RootStore;
@@ -78,19 +83,7 @@ export class GameStore {
   }
 
   convertDifficultyLevel(level: number): string | null {
-    return this.getKeyByValue(DIFFICULY_LEVEL, level);
-  }
-
-  getKeyByValue<DIFFICULY_LEVEL>(
-    dataObj: DIFFICULY_LEVEL,
-    value: number
-  ): keyof DIFFICULY_LEVEL | null {
-    for (const key in dataObj) {
-      if (dataObj[key] === value) {
-        return key;
-      }
-    }
-    return null;
+    return getKeyByValue(DIFFICULY_LEVEL, level);
   }
 
   didUserFoundMine = false;
@@ -257,5 +250,240 @@ export class GameStore {
       return false;
     }
     return true;
+  }
+
+  /*
+  Just putting out my pattern
+  To determine count, Need to find position of cell  (Exclude 1 row or 1 column below)
+
+  MultiDimension or 1D
+  a) Determine cell position
+  b) Get array of adjacent cells based on position
+  c) Sum the count in the array and return
+
+
+
+  If cell resides in corner , there will be alwyas 3 cell around it 
+          if top left(0,0), then adj cells will be 
+                (0,1),(1.0)(1,1)
+          if top right(0,col), then adj cells will be 
+                (0,col-1),(1,col)(1,col-1)
+          if bottom right (row,col), then adj cells will be 
+                (row-1,col),(row,col-1)(row-1,col-1)
+
+            if bottom left (row,0), then adj cells will be 
+                (row,1) (row-1,0) (row-1,1)
+               
+
+    
+  If cell resides in side , ther will be always 5 cells around it
+  If cell reside in mid, there will be 8 cells around it
+
+For 1 row or 1 column
+   if cell reside in corner, ther will 1 cell around it
+   if cell resides in center, there will be 2 cell around it
+
+
+  */
+  getCountOfAdjacentMines(rowIndex: number, colIndex: number): number {
+    let count = 0;
+
+    const pos = this.getPositionOfCurrentCell(rowIndex, colIndex);
+    const listOfIndices = this.getListOfAdjacentCellIndices(
+      rowIndex,
+      colIndex,
+      pos
+    );
+    listOfIndices.forEach((data) => {
+      if (this.data[data[0]][data[1]].isMinePresent) {
+        ++count;
+      }
+    });
+    console.log(`Total adjacent mines ${count}`);
+    return count;
+  }
+
+  // This method will return current position of a cell in the matrix
+  private getPositionOfCurrentCell(
+    rowIndex: number,
+    colIndex: number
+  ): CELL_POSITION {
+    let position = null;
+    if (this.rows === 1 || this.column === 1) {
+      position = this.getPositionOfCurrentCell_1D(rowIndex, colIndex);
+    } else {
+      position = this.getPositionOfCurrentCell_MD(rowIndex, colIndex);
+    }
+    console.log(
+      `Position of  (${rowIndex},${colIndex}) = ${getKeyByValue(
+        CELL_POSITION,
+        position
+      )}`
+    );
+    return position;
+  }
+
+  private getPositionOfCurrentCell_1D(
+    rowIndex: number,
+    colIndex: number
+  ): CELL_POSITION {
+    if (this.rows === 1) {
+      if (colIndex === 0) {
+        return CELL_POSITION.LEFT_1D;
+      } else if (colIndex === this.column - 1) {
+        return CELL_POSITION.RIGHT_1D;
+      } else {
+        return CELL_POSITION.MID_ROW_1D;
+      }
+    } else {
+      if (rowIndex === 0) {
+        return CELL_POSITION.TOP_1D;
+      } else if (rowIndex === this.rows - 1) {
+        return CELL_POSITION.BOTTOM_1D;
+      } else {
+        return CELL_POSITION.MID_COL_1D;
+      }
+    }
+  }
+
+  private getPositionOfCurrentCell_MD(
+    rowIndex: number,
+    colIndex: number
+  ): CELL_POSITION {
+    if (rowIndex === 0 && colIndex === 0) {
+      return CELL_POSITION.TOP_LEFT;
+    } else if (rowIndex === this.rows - 1 && colIndex === 0) {
+      return CELL_POSITION.BOTTOM_LEFT;
+    } else if (rowIndex === 0 && colIndex === this.column - 1) {
+      return CELL_POSITION.TOP_RIGHT;
+    } else if (rowIndex === this.rows - 1 && colIndex === this.column - 1) {
+      return CELL_POSITION.BOTTOM_RIGHT;
+    } else if (rowIndex === 0 && colIndex < this.column - 1 && colIndex > 0) {
+      return CELL_POSITION.TOP_SIDE;
+    } else if (colIndex === 0 && rowIndex > 0 && rowIndex < this.rows - 1) {
+      return CELL_POSITION.LEFT_SIDE;
+    } else if (
+      colIndex === this.column - 1 &&
+      rowIndex > 0 &&
+      rowIndex < this.rows - 1
+    ) {
+      return CELL_POSITION.RIGHT_SIDE;
+    } else if (
+      rowIndex === this.rows - 1 &&
+      colIndex > 0 &&
+      colIndex < this.column - 1
+    ) {
+      return CELL_POSITION.BOTTOM_SIDE;
+    } else {
+      return CELL_POSITION.MID;
+    }
+  }
+
+  private getListOfAdjacentCellIndices(
+    rowIndex: number,
+    colIndex: number,
+    position: CELL_POSITION
+  ): number[][] {
+    let list: number[][] = [];
+    switch (position) {
+      case CELL_POSITION.LEFT_1D: {
+        list.push([rowIndex, colIndex + 1]);
+        break;
+      }
+      case CELL_POSITION.RIGHT_1D: {
+        list.push([rowIndex, colIndex - 1]);
+        break;
+      }
+      case CELL_POSITION.MID_ROW_1D: {
+        list.push([rowIndex, colIndex + 1]);
+        list.push([rowIndex, colIndex - 1]);
+        break;
+      }
+      case CELL_POSITION.TOP_1D: {
+        list.push([rowIndex + 1, colIndex]);
+        break;
+      }
+      case CELL_POSITION.MID_COL_1D: {
+        list.push([rowIndex + 1, colIndex]);
+        list.push([rowIndex - 1, colIndex]);
+        break;
+      }
+      case CELL_POSITION.BOTTOM_1D: {
+        list.push([rowIndex - 1, colIndex]);
+        break;
+      }
+
+      case CELL_POSITION.TOP_LEFT: {
+        list.push([rowIndex + 1, colIndex]);
+        list.push([rowIndex + 1, colIndex + 1]);
+        list.push([rowIndex, colIndex + 1]);
+        break;
+      }
+      case CELL_POSITION.TOP_RIGHT: {
+        list.push([rowIndex, colIndex - 1]);
+        list.push([rowIndex + 1, colIndex]);
+        list.push([rowIndex + 1, colIndex - 1]);
+        break;
+      }
+      case CELL_POSITION.BOTTOM_LEFT: {
+        list.push([rowIndex, colIndex + 1]);
+        list.push([rowIndex - 1, colIndex]);
+        list.push([rowIndex - 1, colIndex + 1]);
+        break;
+      }
+      case CELL_POSITION.BOTTOM_RIGHT: {
+        list.push([rowIndex - 1, colIndex]);
+        list.push([rowIndex - 1, colIndex - 1]);
+        list.push([rowIndex, colIndex - 1]);
+        break;
+      }
+      case CELL_POSITION.TOP_SIDE: {
+        list.push([rowIndex, colIndex + 1]);
+        list.push([rowIndex, colIndex - 1]);
+        list.push([rowIndex + 1, colIndex + 1]);
+        list.push([rowIndex + 1, colIndex]);
+        list.push([rowIndex + 1, colIndex + 1]);
+
+        break;
+      }
+      case CELL_POSITION.BOTTOM_SIDE: {
+        list.push([rowIndex, colIndex + 1]);
+        list.push([rowIndex, colIndex - 1]);
+        list.push([rowIndex - 1, colIndex + 1]);
+        list.push([rowIndex - 1, colIndex]);
+        list.push([rowIndex - 1, colIndex + 1]);
+        break;
+      }
+      case CELL_POSITION.LEFT_SIDE: {
+        list.push([rowIndex + 1, colIndex]);
+        list.push([rowIndex - 1, colIndex]);
+        list.push([rowIndex - 1, colIndex + 1]);
+        list.push([rowIndex, colIndex + 1]);
+        list.push([rowIndex + 1, colIndex + 1]);
+        break;
+      }
+      case CELL_POSITION.RIGHT_SIDE: {
+        list.push([rowIndex + 1, colIndex]);
+        list.push([rowIndex - 1, colIndex]);
+        list.push([rowIndex - 1, colIndex - 1]);
+        list.push([rowIndex, colIndex - 1]);
+        list.push([rowIndex + 1, colIndex - 1]);
+        break;
+      }
+      case CELL_POSITION.MID: {
+        list.push([rowIndex, colIndex + 1]);
+        list.push([rowIndex, colIndex - 1]);
+        list.push([rowIndex + 1, colIndex]);
+        list.push([rowIndex - 1, colIndex]);
+        list.push([rowIndex + 1, colIndex + 1]);
+        list.push([rowIndex + 1, colIndex - 1]);
+        list.push([rowIndex - 1, colIndex + 1]);
+        list.push([rowIndex - 1, colIndex - 1]);
+
+        break;
+      }
+    }
+    console.log(`returning adjacent indces - ${JSON.stringify(list)}`);
+    return list;
   }
 }
