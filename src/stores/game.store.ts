@@ -199,6 +199,9 @@ export class GameStore {
         this.noOfMines = 1;
       }
     }
+    if (this.noOfMines === this.rows * this.column) {
+      --this.noOfMines;
+    }
   }
 
   leftClickCell(rowIndex: number, colIndex: number) {

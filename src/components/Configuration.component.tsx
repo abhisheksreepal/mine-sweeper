@@ -55,7 +55,7 @@ const ConfigurationComponent: FC<{ onClose: () => void }> = observer(
     };
 
     const onSelectingGroup = (event: React.ChangeEvent<HTMLInputElement>) => {
-      console.log(event);
+      noOfMineInputRef?.current?.setCustomValidity("");
       if (event.target.value === "group1") {
         disableManualFields(false);
         rootStore.gameStore.difficultyLevel = DIFFICULY_LEVEL.CUSTOM;
@@ -76,6 +76,7 @@ const ConfigurationComponent: FC<{ onClose: () => void }> = observer(
     };
 
     const onEnteringNoORows = (event: React.ChangeEvent<HTMLInputElement>) => {
+      noOfMineInputRef?.current?.setCustomValidity("");
       const number = parseInt(event.target.value);
       if (!isNaN(number) && number > 0) {
         rootStore.gameStore.rows = number;
@@ -83,6 +84,7 @@ const ConfigurationComponent: FC<{ onClose: () => void }> = observer(
     };
 
     const onEnteringNoOfCols = (event: React.ChangeEvent<HTMLInputElement>) => {
+      noOfMineInputRef?.current?.setCustomValidity("");
       const number = parseInt(event.target.value);
       if (!isNaN(number) && number > 0) {
         rootStore.gameStore.column = number;
@@ -91,6 +93,7 @@ const ConfigurationComponent: FC<{ onClose: () => void }> = observer(
     const onSelectingDifficultyLevel = (
       event: React.ChangeEvent<HTMLInputElement>
     ) => {
+      noOfMineInputRef?.current?.setCustomValidity("");
       if (event.target.value === "easy") {
         rootStore.gameStore.difficultyLevel = DIFFICULY_LEVEL.EASY;
       } else if (event.target.value === "medium") {
