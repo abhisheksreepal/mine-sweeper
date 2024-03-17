@@ -19,14 +19,14 @@ export const modalStyle = css`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
   @media screen and (max-width: 768px) {
-    height: 90vh;
-    width: 90vw;
+    height: 80vh;
+    width: 80vw;
     overflow: auto;
   }
 
   @media screen and (max-height: 600px) {
-    height: 90vh;
-    width: 90vw;
+    height: 80vh;
+    width: 80vw;
     overflow: auto;
   }
 `;
