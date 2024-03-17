@@ -60,12 +60,14 @@ const Game: FC = observer(() => {
                           {rootStore.gameStore.data[rowIndex][colIndex]
                             .isMinePresent &&
                           rootStore.gameStore.data[rowIndex][colIndex]
-                            .isAlreadyClicked
-                            ? "X"
-                            : rootStore.gameStore.data[rowIndex][colIndex]
-                                .isFlagged
-                            ? "?"
-                            : ""}
+                            .isAlreadyClicked ? (
+                            <abbr title="Mine Found">X</abbr>
+                          ) : rootStore.gameStore.data[rowIndex][colIndex]
+                              .isFlagged ? (
+                            <abbr title="Flagged for Mine">?</abbr>
+                          ) : (
+                            ""
+                          )}
                         </button>
                       )}
                     </td>
