@@ -2,11 +2,16 @@ import React, { useContext } from "react";
 import HeadingComponent from "../components/Heading.component";
 import { observer } from "mobx-react-lite";
 import StoreContext from "../contexts/store.context";
-import GameManagerComponent from "../components/game-manager/GameManager.component";
+// import GameManagerComponent from "../components/game-manager/GameManager.component";
 import WelcomeComponent from "../components/Welcome.component";
 import ModalComponent from "../components/Modal.component";
 import ConfigurationComponent from "../components/Configuration.component";
 import HistoryComponent from "../components/HistoryComponent";
+import FallBackLoadingComponent from "../components/FallBackLoading.component.ts";
+
+const GameManagerComponent = React.lazy(() => {
+  return import("../components/game-manager/GameManager.component");
+});
 
 const HomePage = observer(() => {
   const { rootStore } = useContext(StoreContext);
@@ -23,7 +28,11 @@ const HomePage = observer(() => {
     <React.Fragment>
       <HeadingComponent></HeadingComponent>
       {rootStore.uiStore.showGameView ? (
-        <GameManagerComponent></GameManagerComponent>
+        <React.Suspense
+          fallback={<FallBackLoadingComponent></FallBackLoadingComponent>}
+        >
+          <GameManagerComponent></GameManagerComponent>
+        </React.Suspense>
       ) : (
         <WelcomeComponent></WelcomeComponent>
       )}
