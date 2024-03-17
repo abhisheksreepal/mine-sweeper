@@ -442,7 +442,7 @@ For 1 row or 1 column
         list.push([rowIndex, colIndex - 1]);
         list.push([rowIndex + 1, colIndex + 1]);
         list.push([rowIndex + 1, colIndex]);
-        list.push([rowIndex + 1, colIndex + 1]);
+        list.push([rowIndex + 1, colIndex - 1]);
 
         break;
       }
