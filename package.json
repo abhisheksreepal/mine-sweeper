@@ -11,7 +11,7 @@
   },
   "scripts": {
     "clean": "rm -rf target && mkdir target",
-    "predeploy": "yarn dev",
+    "predeploy": "yarn prod",
     "deploy": "gh-pages -d target",
     "test": "jest -u",
     "dev": "yarn clean && webpack  --config ./webpack/webpack.dev.ts --progress",
