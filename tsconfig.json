@@ -8,11 +8,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "target": "ES5",
     "strict": true,
     "strictPropertyInitialization": true,
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+    "jsxImportSource": "@emotion/react"
   },
   "include": ["src", "webpack"],
   "exclude": ["node_modules", "target"]
