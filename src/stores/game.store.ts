@@ -243,6 +243,7 @@ export class GameStore {
     this.startDurationCounter(); // This should stop duration Counter
     this.didUserFoundMine = false;
     this.score = 0;
+    this.rootStore.uiStore.showGameView = false;
   }
 
   isNoOfMinesValid(noOfMines: number, rows: number, column: number): boolean {

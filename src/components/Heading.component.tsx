@@ -11,6 +11,10 @@ const HeadingComponent: FC = observer(() => {
     rootStore.uiStore.showLaunchDialog = !rootStore.uiStore.showLaunchDialog;
   };
 
+  const onViewHistory = () => {
+    rootStore.uiStore.showHistoryDialog = true;
+  };
+
   return (
     <React.Fragment>
       <h1 css={titleStyle} className="title">
@@ -23,6 +27,9 @@ const HeadingComponent: FC = observer(() => {
         disabled={rootStore.gameStore.isGameStarted}
       >
         Launch Game
+      </button>
+      <button onClick={onViewHistory} css={buttonStyleV2}>
+        View History
       </button>
     </React.Fragment>
   );
