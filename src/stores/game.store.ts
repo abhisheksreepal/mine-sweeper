@@ -22,7 +22,8 @@ export class GameStore {
     const status = this.didUserWin;
     if (status) {
       return Math.floor(
-        (this.noOfMines / (this.rows * this.column * this.durationCounter)) *
+        (this.noOfMines /
+          (this.rows * this.column * (this.durationCounter || 1))) *
           1000
       );
     } else {
@@ -100,6 +101,7 @@ export class GameStore {
     }
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.column; j++) {
+        console.log(JSON.stringify(this.data));
         if (
           !this.data[i][j].isAlreadyClicked &&
           !this.data[i][j].isMinePresent
@@ -232,7 +234,7 @@ export class GameStore {
   }
 
   isNoOfMinesValid(noOfMines: number, rows: number, column: number): boolean {
-    if (noOfMines < 1 || noOfMines > rows * column) {
+    if (noOfMines < 1 || noOfMines >= rows * column) {
       return false;
     }
     return true;
