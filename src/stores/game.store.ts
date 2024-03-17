@@ -15,6 +15,7 @@ export class GameStore {
 
   interval: NodeJS.Timeout | null = null;
 
+  gameNumber = 0;
   get score() {
     const status = this.didUserWin;
     if (status) {
@@ -64,6 +65,11 @@ export class GameStore {
     if (gameover) {
       this.isGameStarted = false;
       this.startDurationCounter(); // This should stop duration Counter
+      this.rootStore.historyStore.historyData.push({
+        score: this.score,
+        gameNumber: this.gameNumber,
+        level: this.difficultyLevel,
+      });
     }
     return gameover;
   }
@@ -106,6 +112,7 @@ export class GameStore {
 
   private __noOfMines = 1; // Internal variable just to track when populating mines
   populateMines(): void {
+    ++this.gameNumber;
     this.isGameStarted = true;
 
     this.rootStore.uiStore.showGameView = true;

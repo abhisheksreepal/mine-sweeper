@@ -20,22 +20,17 @@ export const radioStyles = css`
 
 export const buttonStyle = css`
   margin: 5px;
-  color: blue;
+  padding: 5px;
   border-radius: 10px;
-  width: 120px;
-  height: 30px;
   cursor: pointer;
-  font-size: 10px;
+  font-size: 12px;
+  border: 1px solid;
 `;
 
-export const tableStyle = css`
-  border: 1px solid black;
+export const hStyle = css`
+  margin: 10px;
 `;
 
-export const rowStyle = css`
-  border: 1px solid black;
-`;
-
-export const cellStyle = css`
-  border: 1px solid black;
+export const pStyle = css`
+  margin: 10px;
 `;

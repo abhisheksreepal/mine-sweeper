@@ -2,6 +2,7 @@ import React, { FC, useContext } from "react";
 import { observer } from "mobx-react-lite";
 import StoreContext from "../contexts/store.context";
 import { buttonStyle } from "../styles/common.styles";
+import { buttonStyleV2, titleStyle } from "../styles/heading.style";
 
 const HeadingComponent: FC = observer(() => {
   const { rootStore } = useContext(StoreContext);
@@ -12,11 +13,13 @@ const HeadingComponent: FC = observer(() => {
 
   return (
     <React.Fragment>
-      <h1 className="title">Mine Sweep</h1>
+      <h1 css={titleStyle} className="title">
+        Mine Sweep
+      </h1>
       <button
         name="launch-game"
         onClick={onLaunchGame}
-        css={buttonStyle}
+        css={buttonStyleV2}
         disabled={rootStore.gameStore.isGameStarted}
       >
         Launch Game

@@ -2,11 +2,12 @@ import { observer } from "mobx-react-lite";
 import React, { FC, useContext } from "react";
 import StoreContext from "../../contexts/store.context";
 import {
+  cellButtonStyles,
   cellStyle,
+  gameSectionTableStyle,
   rowStyle,
   tableStyle,
-  buttonStyle,
-} from "../../styles/common.styles";
+} from "../../styles/game.style";
 
 const Game: FC = observer(() => {
   const { rootStore } = useContext(StoreContext);
@@ -23,7 +24,7 @@ const Game: FC = observer(() => {
     rootStore.gameStore.rightClickCell(rowIndex, colIndex);
   };
   return (
-    <section>
+    <section css={gameSectionTableStyle}>
       <table css={tableStyle}>
         <tbody>
           {rootStore.gameStore.data.map((row, rowIndex) => {
@@ -42,7 +43,7 @@ const Game: FC = observer(() => {
                       css={cellStyle}
                     >
                       <button
-                        css={buttonStyle}
+                        css={cellButtonStyles}
                       >{`Flag - ${data.isFlagged} and Mine - ${data.isMinePresent} and click = ${data.isAlreadyClicked}`}</button>
                     </td>
                   );
