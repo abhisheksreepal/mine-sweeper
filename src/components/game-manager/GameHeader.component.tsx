@@ -4,6 +4,7 @@ import StoreContext from "../../contexts/store.context";
 import {
   gameHeaderStyle,
   gameLoseStyle,
+  gameStatusStyleContainer,
   gameStatusStyleDefault,
   gameStatusStyleVisible,
   gameWinStyle,
@@ -51,7 +52,7 @@ const GameHeaderComponent: FC = observer(() => {
             : "Show Cell Info"}
         </button>
       </section>
-      <section>
+      <section css={gameStatusStyleContainer}>
         <p
           aria-live="assertive"
           css={[

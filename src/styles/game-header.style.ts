@@ -11,9 +11,8 @@ export const gameStatusStyleDefault = css`
   opacity: 0;
   transition: opacity 2s ease-in;
   margin: 20px;
-  height: 20px;
+  height: 30px;
   animation: scroll 2s linear infinite;
-  width: 30vw;
 
   @keyframes scroll {
     0% {
@@ -38,4 +37,8 @@ export const gameWinStyle = css`
 export const gameLoseStyle = css`
   color: darkred;
   font-size: 15px;
+`;
+
+export const gameStatusStyleContainer = css`
+  overflow: hidden;
 `;
