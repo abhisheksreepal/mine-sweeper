@@ -54,6 +54,12 @@ export class GameStore {
     }
   }
 
+  stopDurationCounter() {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
+  }
+
   setDurationCounter() {
     ++this.durationCounter;
   }
@@ -72,7 +78,7 @@ export class GameStore {
       this.didUserFoundMine || this.areAllCellsWithoutMineClicked;
     if (gameover) {
       this.isGameStarted = false;
-      this.startDurationCounter(); // This should stop duration Counter
+      this.stopDurationCounter(); // This should stop duration Counter
       this.rootStore.historyStore.historyData.push({
         score: this.score,
         gameNumber: this.gameNumber,
@@ -240,7 +246,7 @@ export class GameStore {
     this.__noOfMines = 1;
     this.data = [];
     this.isGameStarted = false;
-    this.startDurationCounter(); // This should stop duration Counter
+    this.stopDurationCounter(); // This should stop duration Counter
     this.didUserFoundMine = false;
     this.score = 0;
     this.rootStore.uiStore.showGameView = false;
