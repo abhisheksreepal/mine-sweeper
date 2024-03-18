@@ -2,3 +2,4 @@ node_modules
 coverage
 target
 .DS_Store
+coverage
