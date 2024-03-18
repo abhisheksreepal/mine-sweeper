@@ -38,14 +38,14 @@ Accessibility: Ensure the game is accessible to users with disabilities by imple
 
 # Technical draft
 
-yarn is used as package manager
-React UI lib
-Webpack - Bundler
-Babel - Transpiling tool
-TypeScript - For Better compile time support , Tool autocomplete etc
-Jest - Unit testing/Coverage
-MobX - State Management tool
-Emotion/React -> CSS IN JS library to manage scoped styles
+- yarn is used as package manager
+- React UI lib
+- Webpack - Bundler
+- Babel - Transpiling tool
+- TypeScript - For Better compile time support , Tool autocomplete etc
+- Jest - Unit testing/Coverage
+- MobX - State Management tool
+- Emotion/React -> CSS IN JS library to manage scoped styles
 
 # Dev Requirement
 
@@ -54,6 +54,6 @@ Emotion/React -> CSS IN JS library to manage scoped styles
 
 # Build/Compile/Run/Deploy
 
-`yarn local` -> For Running locally (http://localhost:9000/mine-sweeper)
-`yarn deploy` -> Deploying it to Github pages [To Deploy prod build, Modify predeploy to `yarn prod` and Dev build `yarn dev`]
-`yarn test` -> Running Unit test cases
+- `yarn local` -> For Running locally (http://localhost:9000/mine-sweeper)
+- `yarn deploy` -> Deploying it to Github pages [To Deploy prod build, Modify predeploy to `yarn prod` and Dev build `yarn dev`]
+- `yarn test` -> Running Unit test cases
